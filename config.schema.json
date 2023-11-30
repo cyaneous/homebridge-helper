@@ -1,0 +1,94 @@
+{
+  "pluginAlias": "Helper",
+  "pluginType": "platform",
+  "singular": true,
+  "schema": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "title": "Name",
+        "type": "string",
+        "required": true,
+        "default": "Helper"
+      },
+      "timers": {
+        "title": "Timers",
+        "notitle": false,
+        "type": "array",
+        "items": {
+          "description": "Timer",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "title": "ID",
+              "description": "A unique ID string used to keep track of this timer.",
+              "type": "string",
+              "required": true
+            },
+            "name": {
+              "title": "Name",
+              "description": "The HomeKit name of this timer.",
+              "type": "string",
+              "required": true
+            },
+            "interval": {
+              "title": "Interval",
+              "description": "The timer fire interval in seconds.",
+              "type": "integer",
+              "required": false,
+              "placeholder": 0,
+              "minimum": 5,
+              "maximum": 86400
+            }
+          }
+        }
+      }
+    }
+  },
+  "layout": [
+    {
+      "type": "flex",
+      "flex-flow": "row wrap",
+      "items": [
+        {
+          "type": "flex",
+          "flex-flow": "column",
+          "items": [
+            "name"
+          ]
+        }
+      ]
+    },
+   {
+      "type": "fieldset",
+      "title": "Timers",
+      "expandable": true,
+      "expanded": true,
+      "items": [
+        {
+          "title": "Timer",
+          "key": "timers",
+          "type": "array",
+          "notitle": true,
+          "items": [
+            {
+              "type": "div",
+              "items": [
+                {
+                  "key": "devices[].id"
+                },
+                {
+                  "key": "devices[].name"
+                },
+                {
+                  "key": "devices[].interval"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
