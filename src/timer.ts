@@ -11,7 +11,7 @@ export class TimerAccessory {
     private readonly platform: HelperPlatform,
     private readonly accessory: PlatformAccessory,
   ) {
-    this.interval = accessory.context.device.interval;
+    this.interval = accessory.context.config.interval;
 
     // set accessory information
     this.accessory.getService(this.platform.Service.AccessoryInformation)!
@@ -26,7 +26,7 @@ export class TimerAccessory {
 
     // set the service name, this is what is displayed as the default name on the Home app
     // in this example we are using the name we stored in the `accessory.context` in the `discoverDevices` method.
-    this.service.setCharacteristic(this.platform.Characteristic.Name, accessory.context.device.name);
+    this.service.setCharacteristic(this.platform.Characteristic.Name, accessory.context.config.name);
 
     // register handlers for the Active Characteristic
     this.service.getCharacteristic(this.platform.Characteristic.ProgrammableSwitchEvent)
@@ -38,7 +38,7 @@ export class TimerAccessory {
     });
 
     this.timer = setInterval(() => {
-      this.service.updateCharacteristic(this.platform.Characteristic.ProgrammableSwitchEvent, 
+      this.service.updateCharacteristic(this.platform.Characteristic.ProgrammableSwitchEvent,
         this.platform.Characteristic.ProgrammableSwitchEvent.SINGLE_PRESS);
     }, this.interval * 1000);
   }

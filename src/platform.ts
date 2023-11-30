@@ -30,8 +30,8 @@ export class HelperPlatform implements DynamicPlatformPlugin {
     // in order to ensure they weren't added to homebridge already. This event can also be used
     // to start discovery of new accessories.
     this.api.on('didFinishLaunching', () => {
-        this.log.debug('Initializing Helper...');
-        this.configureDevices(config);
+      this.log.debug('Initializing Helper...');
+      this.configureDevices(config);
     });
   }
 
@@ -47,8 +47,8 @@ export class HelperPlatform implements DynamicPlatformPlugin {
   }
 
   private configureDevices(config) {
-    for (const timer of config.devices) {
-      this.configureDevice(timer)
+    for (const timer of config.timers) {
+      this.configureDevice(timer);
     }
 
     // remove any stale accessories
@@ -60,7 +60,7 @@ export class HelperPlatform implements DynamicPlatformPlugin {
     }
   }
 
-  private configureDevice(device) {
+  private configureDevice(config) {
     // generate a unique id for the accessory this should be generated from
     // something globally unique, but constant, for example, the device serial
     // number or MAC address
@@ -75,36 +75,36 @@ export class HelperPlatform implements DynamicPlatformPlugin {
       this.log.info('Restoring existing accessory from cache:', existingAccessory.displayName);
 
       // if you need to update the accessory.context then you should run `api.updatePlatformAccessories`. eg.:
-      existingAccessory.context.device = device;
+      existingAccessory.context.config = config;
       this.api.updatePlatformAccessories([existingAccessory]);
 
       // create the accessory handler for the restored accessory
       // this is imported from `platformAccessory.ts`
-      this.instantiateAccessory(device, existingAccessory);
+      this.instantiateAccessory(config, existingAccessory);
     } else {
       // the accessory does not yet exist, so we need to create it
-      this.log.info('Adding new accessory:', device.name);
+      this.log.info('Adding new accessory:', config.name);
 
       // create a new accessory
-      const accessory = new this.api.platformAccessory(device.name, uuid);
+      const accessory = new this.api.platformAccessory(config.name, uuid);
 
       // store a copy of the device object in the `accessory.context`
       // the `context` property can be used to store any data about the accessory you may need
-      accessory.context.device = device;
+      accessory.context.config = config;
 
       // create the accessory handler for the newly create accessory
       // this is imported from `platformAccessory.ts`
-      this.instantiateAccessory(device, accessory);
+      this.instantiateAccessory(config, accessory);
 
       // link the accessory to your platform
       this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
     }
   }
 
-  instantiateAccessory(device, accessory) {
-    switch (device.kind) {
+  instantiateAccessory(config, accessory) {
+    switch (config.kind) {
       case 'timer': return new TimerAccessory(this, accessory);
-      default: this.log.error('Invalid accessory kind:' + device.kind);
+      default: this.log.error('Invalid accessory kind:' + config.kind);
     }
   }
 
