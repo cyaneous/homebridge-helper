@@ -1,7 +1,7 @@
 {
   "displayName": "Homebridge Helper",
   "name": "homebridge-helper",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Adds some missing features to HomeKit via HomeBridge.",
   "license": "MIT",
   "repository": {
@@ -27,8 +27,7 @@
     "timers",
     "timer"
   ],
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/node": "^18.16.20",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
