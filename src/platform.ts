@@ -47,7 +47,7 @@ export class HelperPlatform implements DynamicPlatformPlugin {
   }
 
   private configureDevices(config) {
-    if (config.timers == undefined) {
+    if (config.timers === undefined) {
       config.timers = [];
     }
 
