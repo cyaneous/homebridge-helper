@@ -35,7 +35,7 @@
             "interval": {
               "title": "Interval",
               "description": "The timer fire interval in seconds.",
-              "type": "integer",
+              "type": "number",
               "required": true,
               "default": 300,
               "minimum": 5,

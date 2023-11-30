@@ -52,7 +52,7 @@ export class HelperPlatform implements DynamicPlatformPlugin {
     }
 
     for (const device of config.timers) {
-      this.configureDevice(device);
+      this.configureDevice('timer', device);
     }
 
     // remove any stale accessories
@@ -64,7 +64,7 @@ export class HelperPlatform implements DynamicPlatformPlugin {
     }
   }
 
-  private configureDevice(device) {
+  private configureDevice(kind, device) {
     // generate a unique id for the accessory this should be generated from
     // something globally unique, but constant, for example, the device serial
     // number or MAC address
@@ -84,7 +84,7 @@ export class HelperPlatform implements DynamicPlatformPlugin {
 
       // create the accessory handler for the restored accessory
       // this is imported from `platformAccessory.ts`
-      this.instantiateAccessory(device, existingAccessory);
+      this.instantiateAccessory(kind, device, existingAccessory);
     } else {
       // the accessory does not yet exist, so we need to create it
       this.log.info('Adding new accessory:', device.name);
@@ -98,17 +98,17 @@ export class HelperPlatform implements DynamicPlatformPlugin {
 
       // create the accessory handler for the newly create accessory
       // this is imported from `platformAccessory.ts`
-      this.instantiateAccessory(device, accessory);
+      this.instantiateAccessory(kind, device, accessory);
 
       // link the accessory to your platform
       this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
     }
   }
 
-  instantiateAccessory(device, accessory) {
-    switch (device.kind) {
+  instantiateAccessory(kind, device, accessory) {
+    switch (kind) {
       case 'timer': return new TimerAccessory(this, accessory);
-      default: this.log.error('Invalid accessory kind:' + device.kind);
+      default: this.log.error('Invalid accessory kind:' + kind);
     }
   }
 }
