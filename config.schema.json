@@ -37,6 +37,7 @@
               "description": "The timer fire interval in seconds.",
               "type": "integer",
               "required": true,
+              "placeholder": 300,
               "default": 300,
               "minimum": 5,
               "maximum": 86400
