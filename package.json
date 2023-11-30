@@ -1,7 +1,7 @@
 {
   "displayName": "Homebridge Helper",
   "name": "homebridge-helper",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Adds some missing features to HomeKit via HomeBridge.",
   "license": "MIT",
   "repository": {
