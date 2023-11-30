@@ -47,6 +47,10 @@ export class HelperPlatform implements DynamicPlatformPlugin {
   }
 
   private configureDevices(config) {
+    if (config.timers == undefined) {
+      config.timers = [];
+    }
+
     for (const device of config.timers) {
       this.configureDevice(device);
     }
@@ -107,5 +111,4 @@ export class HelperPlatform implements DynamicPlatformPlugin {
       default: this.log.error('Invalid accessory kind:' + device.kind);
     }
   }
-
 }
