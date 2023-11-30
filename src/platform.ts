@@ -47,8 +47,8 @@ export class HelperPlatform implements DynamicPlatformPlugin {
   }
 
   private configureDevices(config) {
-    for (const timer of config.timers) {
-      this.configureDevice(timer);
+    for (const device of config.timers) {
+      this.configureDevice(device);
     }
 
     // remove any stale accessories
@@ -60,7 +60,7 @@ export class HelperPlatform implements DynamicPlatformPlugin {
     }
   }
 
-  private configureDevice(config) {
+  private configureDevice(device) {
     // generate a unique id for the accessory this should be generated from
     // something globally unique, but constant, for example, the device serial
     // number or MAC address
@@ -75,36 +75,36 @@ export class HelperPlatform implements DynamicPlatformPlugin {
       this.log.info('Restoring existing accessory from cache:', existingAccessory.displayName);
 
       // if you need to update the accessory.context then you should run `api.updatePlatformAccessories`. eg.:
-      existingAccessory.context.config = config;
+      existingAccessory.context.config = device;
       this.api.updatePlatformAccessories([existingAccessory]);
 
       // create the accessory handler for the restored accessory
       // this is imported from `platformAccessory.ts`
-      this.instantiateAccessory(config, existingAccessory);
+      this.instantiateAccessory(device, existingAccessory);
     } else {
       // the accessory does not yet exist, so we need to create it
-      this.log.info('Adding new accessory:', config.name);
+      this.log.info('Adding new accessory:', device.name);
 
       // create a new accessory
-      const accessory = new this.api.platformAccessory(config.name, uuid);
+      const accessory = new this.api.platformAccessory(device.name, uuid);
 
       // store a copy of the device object in the `accessory.context`
       // the `context` property can be used to store any data about the accessory you may need
-      accessory.context.config = config;
+      accessory.context.config = device;
 
       // create the accessory handler for the newly create accessory
       // this is imported from `platformAccessory.ts`
-      this.instantiateAccessory(config, accessory);
+      this.instantiateAccessory(device, accessory);
 
       // link the accessory to your platform
       this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
     }
   }
 
-  instantiateAccessory(config, accessory) {
-    switch (config.kind) {
+  instantiateAccessory(device, accessory) {
+    switch (device.kind) {
       case 'timer': return new TimerAccessory(this, accessory);
-      default: this.log.error('Invalid accessory kind:' + config.kind);
+      default: this.log.error('Invalid accessory kind:' + device.kind);
     }
   }
 
