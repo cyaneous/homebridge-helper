@@ -36,8 +36,8 @@
               "title": "Interval",
               "description": "The timer fire interval in seconds.",
               "type": "integer",
-              "required": false,
-              "placeholder": 0,
+              "required": true,
+              "default": 300,
               "minimum": 5,
               "maximum": 86400
             }
@@ -76,13 +76,13 @@
               "type": "div",
               "items": [
                 {
-                  "key": "devices[].id"
+                  "key": "timers[].id"
                 },
                 {
-                  "key": "devices[].name"
+                  "key": "timers[].name"
                 },
                 {
-                  "key": "devices[].interval"
+                  "key": "timers[].interval"
                 }
               ]
             }
